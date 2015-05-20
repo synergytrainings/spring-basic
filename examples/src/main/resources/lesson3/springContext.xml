@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="hammingSuggester" class="com.synisys.training.spring.lesson3.HammingSuggester">
+        <constructor-arg ref="dataSet"/>
+    </bean>
+    <bean id="levensteinSuggester" class="com.synisys.training.spring.lesson3.LevenshteinSuggester">
+        <constructor-arg ref="dataSet"/>
+    </bean>
+    <bean id="dataSet" class="java.util.HashSet" >
+        <constructor-arg>
+            <set>
+                <value>Upper Armenia</value>
+                <value>Sophene</value>
+                <value>Aghdznik</value>
+                <value>Turuberan</value>
+                <value>Corduene</value>
+                <value>Moxoene</value>
+                <value>Nor Shirakan</value>
+                <value>Vaspurakan</value>
+                <value>Syunik</value>
+                <value>Artsakh</value>
+                <value>Paytkaran</value>
+                <value>Utik</value>
+                <value>Gugark</value>
+                <value>Tayk</value>
+                <value>Ayrarat</value>
+            </set>
+        </constructor-arg>
+    </bean>
+    <bean id="searchEngine" class="com.synisys.training.spring.lesson3.SearchEngine">
+        <constructor-arg ref="levensteinSuggester"/>
+    </bean>
+</beans>
