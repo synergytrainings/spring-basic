@@ -13,14 +13,16 @@ import java.util.Scanner;
 public class Runner {
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext =
+        ClassPathXmlApplicationContext applicationContext =
                 new ClassPathXmlApplicationContext("classpath:lesson3/springContext.xml");
         SearchEngine searchEngine = (SearchEngine) applicationContext.getBean("searchEngine");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.next();
-        while (true) {
+        while (!s.equals("/exit")) {
             System.out.println(searchEngine.onKeyType(s));
             s = scanner.next();
         }
+        System.out.println(applicationContext.getBean("&levensteinSuggester").getClass());
+        applicationContext.destroy();
     }
 }

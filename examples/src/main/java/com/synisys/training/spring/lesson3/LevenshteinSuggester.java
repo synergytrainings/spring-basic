@@ -2,6 +2,7 @@ package com.synisys.training.spring.lesson3;
 
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.BeanNameAware;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
  * @author armen mkrtchyan
  * @version 1.0
  */
-public class LevenshteinSuggester implements Suggester {
+public class LevenshteinSuggester implements Suggester, BeanNameAware {
 
     private final Set<String> dictionary;
 
@@ -32,4 +33,8 @@ public class LevenshteinSuggester implements Suggester {
         return heap.peek();
     }
 
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("my name is " + name);
+    }
 }

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="hammingSuggester" class="com.synisys.training.spring.lesson3.HammingSuggester">
-        <constructor-arg ref="dataSet"/>
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config/>
+    <bean id="hammingSuggester" factory-bean="otherSuggesterFactoryBean" factory-method="getSuggester">
+        <constructor-arg index="0" value="HAMMING"/>
+        <constructor-arg index="1" ref="dataSet"/>
     </bean>
-    <bean id="levensteinSuggester" class="com.synisys.training.spring.lesson3.LevenshteinSuggester">
-        <constructor-arg ref="dataSet"/>
+    <bean id="levensteinSuggester" class="com.synisys.training.spring.lesson3.SuggesterFactoryBean">
+        <constructor-arg index="0" value="LEVENSTEIN"/>
+        <constructor-arg index="1" ref="dataSet"/>
     </bean>
-    <bean id="dataSet" class="java.util.HashSet" >
+
+    <bean id="otherSuggesterFactoryBean" class="com.synisys.training.spring.lesson3.SuggesterOtherFactoryBean"/>
+    <bean id="dataSet" class="java.util.HashSet">
         <constructor-arg>
             <set>
                 <value>Upper Armenia</value>
@@ -30,7 +38,7 @@
             </set>
         </constructor-arg>
     </bean>
-    <bean id="searchEngine" class="com.synisys.training.spring.lesson3.SearchEngine">
+    <bean id="searchEngine" class="com.synisys.training.spring.lesson3.SearchEngine" init-method="init" destroy-method="dest">
         <constructor-arg ref="levensteinSuggester"/>
     </bean>
 </beans>

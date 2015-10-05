@@ -1,5 +1,9 @@
 package com.synisys.training.spring.lesson3;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -9,7 +13,7 @@ import java.util.stream.Collectors;
  * @author armen mkrtchyan
  * @version 1.0
  */
-public class HammingSuggester implements Suggester {
+public class HammingSuggester implements Suggester, ApplicationContextAware {
 
     private final Set<String> dictionary;
 
@@ -36,5 +40,10 @@ public class HammingSuggester implements Suggester {
                 (first, second) -> calculate(from, first) - calculate(from, second));
         heap.addAll(dictionary.stream().filter(items -> items.length() == from.length()).collect(Collectors.toList()));
         return heap.peek();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("i have context");
     }
 }
