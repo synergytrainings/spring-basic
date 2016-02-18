@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:component-scan base-package="com.synisys.spring.project"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:applicationDatabase.properties"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${datasource.driverClassName}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+    </bean>
+
+    <bean id="abstractService" class="com.synisys.spring.project.service.Implementation.AbstractService" abstract="true">
+        <constructor-arg index="0" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="bookServiceImpl" class="com.synisys.spring.project.service.Implementation.BookServiceImpl" parent="abstractService" />
+    <bean id="bookReaderServiceImpl" class="com.synisys.spring.project.service.Implementation.BookReaderServiceImpl" parent="abstractService" />
+    <bean id="readerServiceImpl" class="com.synisys.spring.project.service.Implementation.ReaderServiceImpl" parent="abstractService" />
+
+
+</beans>
